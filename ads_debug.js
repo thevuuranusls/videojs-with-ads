@@ -1,24 +1,29 @@
 var Ads = function(videoid, source) {
 
     // Your config
-    this.AdTagInput = "<AD_TAG>";
-	this.options = {
-	    html5: {
-	      p2pConfig:{
-	        streamrootKey: "<YOUR-STREAMROOT-KEY>",
-	        debug: true
-	      },
-	      hlsjsConfig: {}
-	    },
-	    id: videoid,
-	    debug: true,
-	    adTagUrl: this.AdTagInput,
-	    showCountdown: true,
-	    adLabel: "Publicité",
-	    //forceNonLinearFullSlot: false,
-	    vpaidMode: google.ima.ImaSdkSettings.VpaidMode.ENABLED
-	  };
+      this.AdTagInput = "<AD_TAG>";
+      this.options = {
+          html5: {
+  	      p2pConfig:{
+  	        streamrootKey: "<YOUR-STREAMROOT-KEY>",
+  	        debug: true
+  	      },
+  	      hlsjsConfig: {}
+  	    },
+  	    debug: true,
+        autoplay: false
+  	  };
 
+       var adOptions = {
+        id: videoid,
+        adTagUrl: this.AdTagInput,
+   	    showCountdown: true,
+   	    adLabel: "Publicité",
+   	    //forceNonLinearFullSlot: false,
+   	    vpaidMode: google.ima.ImaSdkSettings.VpaidMode.ENABLED
+      };
+
+      this.source = source;
       this.player = videojs(videoid, this.options);
 
       // Remove controls from the player on iPad to stop native controls from stealing
@@ -53,17 +58,12 @@ var Ads = function(videoid, source) {
         google.ima.AdEvent.Type.THIRD_QUARTILE
       ];
 
-      this.player.ima(
-          {id: videoid},
+      var pl = this.player;
+
+      pl.ima(
+          adOptions,
           this.bind(this, this.adsManagerLoadedCallback)
       );
-
-      // Load source when ready
-      let pl = this.player;
-      pl.ready(function() {
-          console.log("Ready");
-          pl.src(source);
-      });
 
       // adding the Sound on mouse over option:
      pl.on('mouseover', function(){
@@ -80,7 +80,7 @@ var Ads = function(videoid, source) {
 Ads.prototype.init = function() {
 	console.log("initializing");
     // this.player.ima.initializeAdDisplayContainer(); // Automatic if not explicitly done
-    this.player.ima.setContentWithAdTag(null, this.AdTagInput, true);
+    this.player.ima.setContentWithAdTag(this.source, this.AdTagInput, false);
     this.player.ima.requestAds();
     this.player.play();
 };
