@@ -8,7 +8,7 @@ var Ads = function(videoid, source) {
               streamrootKey: "<YOUR-STREAMROOT-KEY>"
             },
             hlsjsConfig: {}
-          }
+          },
           autoplay: false
         };
 
