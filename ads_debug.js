@@ -11,7 +11,7 @@ var Ads = function(videoid, source) {
   	      hlsjsConfig: {}
   	    },
   	    debug: true,
-        autoplay: false
+        autoplay: true
   	  };
 
        var adOptions = {
