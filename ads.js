@@ -9,7 +9,7 @@ var Ads = function(videoid, source) {
             },
             hlsjsConfig: {}
           },
-          autoplay: false
+          autoplay: true
         };
 
         this.source = source;
